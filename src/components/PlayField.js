@@ -32,24 +32,26 @@ class PlayField extends Component {
     componentDidMount() {
         let personCards = cards.slice(0, cards.length / 2)
         let compCards = cards.slice(cards.length / 2, cards.length)
+
         this.setState({
             ...this.state,
             computer: {...this.state.computer, cards: compCards},
             player: {...this.state.player, cards: personCards}
         })
 
-        console.log(this.state.computer.cards)
-        console.log(this.state.player.cards)
-        console.log('====================')
+        // console.log(this.state.computer.cards)
+        // console.log(this.state.name.cards)
+        // console.log('====================')
 
     }
 
 
     takeCard = () => {
 
-        // if (!this.state.computer.cards.length || !this.state.player.cards.length) {
-        //     this.props.goToResult()
-        // }
+        if (!this.state.computer.cards.length || !this.state.player.cards.length) {
+            this.props.getWins(this.state.computer.wins, this.state.player.wins)
+            return;
+        }
 
         const currentCompCard = this.state.computer.cards[this.state.computer.cards.length - 1]
         const currentPlayerCard = this.state.player.cards[this.state.player.cards.length - 1]
@@ -84,7 +86,7 @@ class PlayField extends Component {
             })
         }
 
-        console.log(this.state.lightsOut)
+        // console.log(this.state.lightsOut)
 
         this.setState({
             ...this.state,
@@ -103,28 +105,20 @@ class PlayField extends Component {
         })
 
 
-        console.log(this.state.computer.cards)
-        console.log(this.state.player.cards)
-        console.log('--------')
+        // console.log(this.state.computer.cards)
+        // console.log(this.state.name.cards)
+        // console.log('--------')
     }
 
     compare = (comp, player) => {
         return comp.num > player.num
     }
 
-    // isEquals = (currentCompCard, currentPlayerCard, temp) => {
-    //     if (currentCompCard == currentPlayerCard){
-    //         console.log(true)
-    //         temp.unshift(currentCompCard, currentPlayerCard)
-    //         return this.isEquals(currentCompCard, currentPlayerCard, temp)
-    //     } else {
-    //         return
-    //     }
-    // }
+
 
     render() {
         // console.log(this.state.computer.cards)
-        // console.log(this.state.player.cards)
+        // console.log(this.state.name.cards)
         // console.log('-----------------------')
         return (
             <div>

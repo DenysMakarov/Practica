@@ -7,7 +7,7 @@ class StartField extends React.Component {
 
         this.state = {
             player: '',
-            error: 'Your name...'
+            message: 'Your name...'
         }
     }
 
@@ -19,7 +19,7 @@ class StartField extends React.Component {
     }
 
     startGame = () => {
-        this.props.goToPlay(this.state.player)
+        (!this.state.player) ? this.setState({message: 'ERROR: Enter your name...'}) : this.props.goToPlay(this.state.player)
     }
 
     render() {
@@ -28,13 +28,11 @@ class StartField extends React.Component {
                 <h1>READY FOR WAR</h1>
                 <label htmlFor="name">First Name</label>
                 <input onChange={this.handleChange} value={this.player} type="text" id="name" name="name"
-                       placeholder={this.state.error}/>
+                       placeholder={this.state.message}/>
                 <button onClick={this.startGame}>START</button>
             </div>
         );
     }
-
-
 };
 
 export default StartField;

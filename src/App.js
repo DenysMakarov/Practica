@@ -12,7 +12,9 @@ class App extends React.Component {
 
         this.state = {
             page: 'start',
-            player: ''
+            name: '',
+            copmWins: 0,
+            playerWins: 0
         }
     }
 
@@ -28,6 +30,22 @@ class App extends React.Component {
         this.setState({
             page: 'result'
         })
+    }
+
+    getWins = (comp, player) => {
+        if (comp > player){
+            this.setState({
+                copmWins: this.state.copmWins+=1,
+                playerWins: this.state.playerWins,
+                page: 'result'
+            })
+        } else {
+            this.setState({
+                copmWins: this.state.copmWins,
+                playerWins:  this.state.playerWins+=1,
+                page: 'result'
+            })
+        }
 
     }
 
@@ -39,15 +57,15 @@ class App extends React.Component {
                 )
             case 'play':
                 return(
-                    <PlayField playerName={this.state.player} goToResult={this.goToResult}/>
+                    <PlayField getWins={this.getWins} playerName={this.state.name} goToResult={this.goToResult}/>
                 )
             case 'result':
                 return(
-                    <Result/>
+                    <Result lose={this.state.copmWins} win={this.state.playerWins} goToPlay={this.goToPlay}/>
                 )
             default:
                 return (
-                    <StartField handleClick={this.handleClick} player={this.player} goToPlay={this.goToPlay}/>
+                    <StartField handleClick={this.handleClick} player={this.name} goToPlay={this.goToPlay}/>
                 )
         }
 
