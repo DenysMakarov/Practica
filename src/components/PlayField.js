@@ -9,7 +9,7 @@ class PlayField extends Component {
         this.state = {
             cards: cards.sort(() => Math.random() - 0.5),
             computer: {
-                cards: [cards.slice(0, 26)],
+                cards: cards.slice(0, cards.length / 2),
                 currenCard: {
                     num: 0,
                     type: 'nothing'
@@ -17,71 +17,106 @@ class PlayField extends Component {
                 wins: 0
             },
             player: {
-                cards: [cards.slice(26, 52)],
+                cards: cards.slice(cards.length / 2, cards.length),
                 currenCard: {
                     num: 0,
                     type: 'nothing'
                 },
                 wins: 0
             },
+            lightsOut: [],
             winner: 'noBody'
         }
     }
 
     componentDidMount() {
-        let personCards = cards.slice(0, 26)
-        let compCards = cards.slice(26, 52)
+        let personCards = cards.slice(0, cards.length / 2)
+        let compCards = cards.slice(cards.length / 2, cards.length)
+
+        // console.log(personCards)
+        // console.log(compCards)
+
         this.setState({
             ...this.state,
-            computer: {...this.state.computer , cards: compCards},
+            computer: {...this.state.computer, cards: compCards},
             player: {...this.state.player, cards: personCards}
         })
+
     }
 
 
     takeCard = () => {
+
+        // if (!this.state.computer.cards.length || !this.state.player.cards.length) {
+        //     this.props.goToResult()
+        // }
+
         const currentCompCard = this.state.computer.cards[this.state.computer.cards.length - 1]
         const currentPlayerCard = this.state.player.cards[this.state.player.cards.length - 1]
 
         let newCompArray = this.state.computer.cards
         let newPlayerArray = this.state.player.cards
 
+        let temp = [currentCompCard, currentPlayerCard]
+
         newCompArray.pop()
         newPlayerArray.pop()
+
+        // this.setState({
+        //     ...this.state,
+        //     lightsOut: this.state.lightsOut.unshift(currentCompCard, currentPlayerCard)
+        // })
+        // console.log(this.state)
+
+        if (currentCompCard === currentPlayerCard) {
+
+        } else if (this.compare(currentCompCard, currentPlayerCard)) {
+            newCompArray.unshift(...temp)
+        } else {
+            newPlayerArray.unshift(...temp)
+        }
 
 
         this.setState({
             ...this.state,
             computer: {
                 ...this.state.computer,
-                cards: newPlayerArray,
+                cards: newCompArray,
                 currenCard: currentCompCard,
-                wins: (this.compare(currentCompCard, currentPlayerCard)) ? this.state.computer.wins+=1 : this.state.computer.wins
+                wins: !(this.compare(currentCompCard, currentPlayerCard)) ? this.state.computer.wins : this.state.computer.wins += 1
             },
             player: {
                 ...this.state.player,
-                cards: newCompArray,
+                cards: newPlayerArray,
                 currenCard: currentPlayerCard,
-                wins: (this.compare(currentPlayerCard, currentCompCard)) ? this.state.player.wins+=1 : this.state.player.wins
+                wins: !(this.compare(currentPlayerCard, currentCompCard)) ? this.state.player.wins : this.state.player.wins += 1
             }
-
         })
 
-        // this.compare(currentCompCard, currentPlayerCard)
 
+        console.log(this.state.computer.cards)
+        console.log(this.state.player.cards)
+        console.log('--------')
     }
+
     compare = (comp, player) => {
         return comp.num > player.num
     }
 
-
-    // isCurrentCard(){
-    //    return (this.state.computer.currenCard.num==undefined) ? 'take card' : `skill:  ${this.state.computer.currenCard.num}`
+    // isEquals = (currentCompCard, currentPlayerCard, temp) => {
+    //     if (currentCompCard == currentPlayerCard){
+    //         console.log(true)
+    //         temp.unshift(currentCompCard, currentPlayerCard)
+    //         return this.isEquals(currentCompCard, currentPlayerCard, temp)
+    //     } else {
+    //         return
+    //     }
     // }
 
     render() {
-        console.log(this.state.computer.wins)
-        console.log(this.state.player.wins)
+        // console.log(this.state.computer.cards)
+        // console.log(this.state.player.cards)
+        // console.log('-----------------------')
         return (
             <div>
                 <h2>COMP</h2>
@@ -90,10 +125,12 @@ class PlayField extends Component {
                     <div className='card compCard'>
                         <p>{`skill:  ${this.state.computer.currenCard.num}`}</p>
                         <p>{`type:  ${this.state.computer.currenCard.type}`}</p>
+                        <p>{this.state.computer.cards.length}</p>
                     </div>
                     <div className='card yourCard'>
                         <p>{`skill:  ${this.state.player.currenCard.num}`}</p>
                         <p>{`type:  ${this.state.player.currenCard.type}`}</p>
+                        <p>{this.state.player.cards.length}</p>
                     </div>
                 </div>
                 <div className='result'>
