@@ -3,14 +3,13 @@ import {cards} from "../utils/constants";
 import ResBlock from "./ResBlock";
 import CardField from "./CardField";
 
-// .sort(() => Math.random() - 0.5)
 class PlayField extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             computer: {
-                cards: cards.slice(0, cards.length/2),
+                cards: [],
                 currenCard: {
                     num: 0,
                     type: '...'
@@ -18,7 +17,7 @@ class PlayField extends Component {
                 wins: 0
             },
             player: {
-                cards: cards.slice(cards.length/2, cards.length),
+                cards: [],
                 currenCard: {
                     num: 0,
                     type: '...'
@@ -30,7 +29,12 @@ class PlayField extends Component {
     }
 
     componentDidMount() {
-        cards.sort(() => Math.random() - 0.5)
+        let descCard = cards.sort(() => Math.random() - 0.5)
+        this.setState({
+            ...this.state,
+            computer: {...this.state.computer, cards :  descCard.slice(0, cards.length/2)},
+            player: {...this.state.player, cards : cards.slice(cards.length/2, cards.length)}
+        })
     }
 
     takeCard = () => {
@@ -78,7 +82,6 @@ class PlayField extends Component {
                            name={this.props.name.toUpperCase()}
                 />
                 <ResBlock compWin={this.state.computer.wins} playersWin={this.state.player.wins}/>
-                {/*<button className='btn-wins' onClick={this.props.goToResult}>next</button>*/}
             </div>
         );
     }

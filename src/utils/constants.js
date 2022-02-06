@@ -1,43 +1,10 @@
 
-// export const cards = [
-//     {num: 1, type: 'Diamonds'},
-//     {num: 2, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'},
-//     {num: 2, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'},
-//     {num: 12, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'}
-// ]
 
 export const page = {
     start: 'start',
     play: 'play',
     result: 'result'
 }
-
-// export const cards = [
-//     {num: 1, type: 'Diamonds'},
-//     {num: 2, type: 'Diamonds'},
-//     {num: 3, type: 'Diamonds'},
-//     {num: 4, type: 'Diamonds'},
-//     {num: 5, type: 'Diamonds'},
-//     {num: 6, type: 'Diamonds'},
-//     {num: 7, type: 'Diamonds'},
-//     {num: 8, type: 'Diamonds'},
-//     {num: 9, type: 'Diamonds'},
-//     {num: 10, type: 'Diamonds'},
-//     {num: 11, type: 'Diamonds'},
-//     {num: 12, type: 'Diamonds'},
-//     {num: 13, type: 'Diamonds'},
-//
-// ]
 
 export const cards = [
     {num: 1, type: 'Diamonds'},
