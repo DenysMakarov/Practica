@@ -27,7 +27,6 @@ class StartField extends React.Component {
         return (
             <div className='field'>
                 <h1 className='title'>READY FOR WAR</h1>
-                {/*<label htmlFor="name">ENTER YOUR NAME</label>*/}
                 <input className='inp' onChange={this.handleChange} value={this.name} type="text" id="name" name="name" placeholder={this.state.message}/>
                 <button className='btn-start' onClick={() => this.startGame()}>START</button>
             </div>

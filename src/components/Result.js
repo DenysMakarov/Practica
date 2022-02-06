@@ -9,7 +9,7 @@ class Result extends Component {
             <div className='result-box'>
                 <h1>Lose : {this.props.lose}</h1>
                 <h1>Wins: {this.props.win}</h1>
-                <button className='btn-back' onClick={() => this.props.goBack()}>AGAIN</button>
+                <button className='btn-back' onClick={() => this.props.tryAgain()}>AGAIN</button>
             </div>
         );
     }

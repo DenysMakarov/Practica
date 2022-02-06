@@ -28,19 +28,13 @@ class App extends React.Component {
         })
     }
 
-    goBack = () => {
+    tryAgain = () => {
         this.setState({
             ...this.state,
             page: page.play
         })
     }
 
-    goToResult = () => {
-        this.setState({
-            ...this.state,
-            page: page.result,
-        })
-    }
 
 
     getWins = (comp, player) => {
@@ -67,18 +61,17 @@ class App extends React.Component {
                 )
             case 'play':
                 return (
-                    <PlayField getWins={this.getWins} name={this.state.name} goToResult={this.goToResult}/>
+                    <PlayField getWins={this.getWins} name={this.state.name}/>
                 )
             case 'result':
                 return (
-                    <Result goBack={this.goBack} lose={this.state.copmWins} win={this.state.playerWins} />
+                    <Result tryAgain={this.tryAgain} lose={this.state.copmWins} win={this.state.playerWins} />
                 )
             default:
                 return (
                     <StartField goToPlay={this.goToPlay}/>
                 )
         }
-
     }
 }
 
