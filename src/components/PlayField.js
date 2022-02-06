@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import {cards} from "../utils/constants";
 import ResBlock from "./ResBlock";
+import CardField from "./CardField";
 
-
+// .sort(() => Math.random() - 0.5)
 class PlayField extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            cards: cards.sort(() => Math.random() - 0.5),
             computer: {
-                cards: cards.slice(0, cards.length / 2),
+                cards: cards.slice(0, cards.length/2),
                 currenCard: {
                     num: 0,
                     type: '...'
@@ -18,7 +18,7 @@ class PlayField extends Component {
                 wins: 0
             },
             player: {
-                cards: cards.slice(cards.length / 2, cards.length),
+                cards: cards.slice(cards.length/2, cards.length),
                 currenCard: {
                     num: 0,
                     type: '...'
@@ -30,18 +30,8 @@ class PlayField extends Component {
     }
 
     componentDidMount() {
-        // let personCards = cards.slice(0, cards.length / 2)
-        // let compCards = cards.slice(cards.length / 2, cards.length)
-        //
-        // this.setState({
-        //     ...this.state,
-        //     // computer: {...this.state.computer, cards: compCards},
-        //     // player: {...this.state.player, cards: personCards},
-        //     // name: this.props.name
-        // })
-        console.log("name " + this.props.name)
+        cards.sort(() => Math.random() - 0.5)
     }
-
 
     takeCard = () => {
         if (!this.state.computer.cards.length || !this.state.player.cards.length) {
@@ -52,9 +42,8 @@ class PlayField extends Component {
         const currentCompCard = this.state.computer.cards[this.state.computer.cards.length - 1]
         const currentPlayerCard = this.state.player.cards[this.state.player.cards.length - 1]
 
-        let newCompArray = this.state.computer.cards
-        let newPlayerArray = this.state.player.cards
-        let temp = [currentCompCard, currentPlayerCard]
+        const newCompArray = this.state.computer.cards
+        const newPlayerArray = this.state.player.cards
 
         newCompArray.pop()
         newPlayerArray.pop()
@@ -74,11 +63,6 @@ class PlayField extends Component {
                 wins: !(this.compare(currentPlayerCard, currentCompCard)) ? this.state.player.wins : this.state.player.wins += 1
             }
         })
-        //
-
-        // console.log(this.state.computer.cards)
-        // console.log(this.state.name.cards)
-        // console.log('--------')
     }
 
     compare = (comp, player) => {
@@ -86,31 +70,15 @@ class PlayField extends Component {
     }
 
     render() {
-        // console.log(this.state.computer.cards)
-        // console.log(this.state.name.cards)
-        // console.log('-----------------------')
         return (
             <div className='mainField'>
-                <button onClick={this.takeCard} className='takeCard'><h3>TAKE CARD</h3></button>
-
-                <div className='cards-field'>
-                    <h2 className='gamer'>COMP</h2>
-                    <div className='card compCard'>
-                        <p>{this.state.computer.currenCard.num}</p>
-                        <p>{this.state.computer.currenCard.type}</p>
-                    </div>
-
-                    <div className='card yourCard'>
-                        <p>{this.state.player.currenCard.type}</p>
-                        <p>{this.state.player.currenCard.num}</p>
-                    </div>
-                    <h2 className='gamer'>{this.props.name.toUpperCase()}</h2>
-                </div>
-
+                <button onClick={this.takeCard} className='takeCard'><h3>NEXT CARD</h3></button>
+                <CardField compCurrentNum={this.state.computer.currenCard.num} playerCurrentNum={this.state.player.currenCard.num}
+                compCurrentType={this.state.computer.currenCard.type} playerCurrentType={this.state.player.currenCard.type}
+                           name={this.props.name.toUpperCase()}
+                />
                 <ResBlock compWin={this.state.computer.wins} playersWin={this.state.player.wins}/>
-
-                {/*<h2>{this.props.name}</h2>*/}
-                <button className='btn-wins' onClick={this.props.goToResult}>next</button>
+                {/*<button className='btn-wins' onClick={this.props.goToResult}>next</button>*/}
             </div>
         );
     }
