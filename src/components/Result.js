@@ -4,15 +4,12 @@ class Result extends Component {
     constructor(props) {
         super(props);
     }
-
-
     render() {
-        const {lose, win, goToPlay} = this.props
         return (
-            <div>
-                <h1>Lose : {lose}</h1>
-                <h1>Wins: {win}</h1>
-                <button onClick={goToPlay}>Click</button>
+            <div className='result-box'>
+                <h1>Lose : {this.props.lose}</h1>
+                <h1>Wins: {this.props.win}</h1>
+                <button className='btn-back' onClick={() => this.props.goBack()}>BACK TO GAME</button>
             </div>
         );
     }

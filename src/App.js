@@ -4,6 +4,7 @@ import StartField from "./components/StartField";
 import PlayField from "./components/PlayField";
 import Result from "./components/Result";
 import Main from "./components/Main";
+import {page} from "./utils/constants";
 
 
 class App extends React.Component {
@@ -11,7 +12,7 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            page: 'start',
+            page: page.start,
             name: '',
             copmWins: 0,
             playerWins: 0
@@ -21,51 +22,60 @@ class App extends React.Component {
 
     goToPlay = (name) => {
         this.setState({
-            player: name,
-            page: 'play'
+            ...this.state,
+            name: name,
+            page: page.play
         })
     }
 
-    goToResult = (a) => {
+    goBack = () => {
         this.setState({
-            page: 'result'
+            ...this.state,
+            page: page.play
         })
     }
+
+    goToResult = () => {
+        this.setState({
+            ...this.state,
+            page: page.result,
+        })
+    }
+
 
     getWins = (comp, player) => {
-        if (comp > player){
+        if (comp > player) {
             this.setState({
-                copmWins: this.state.copmWins+=1,
-                playerWins: this.state.playerWins,
+                ...this.state,
+                copmWins: this.state.copmWins += 1,
                 page: 'result'
             })
         } else {
             this.setState({
-                copmWins: this.state.copmWins,
-                playerWins:  this.state.playerWins+=1,
+                ...this.state,
+                playerWins: this.state.playerWins += 1,
                 page: 'result'
             })
         }
-
     }
 
     render() {
-        switch (this.state.page){
+        switch (this.state.page) {
             case 'start':
-                return(
+                return (
                     <StartField goToPlay={this.goToPlay}/>
                 )
             case 'play':
-                return(
-                    <PlayField getWins={this.getWins} playerName={this.state.name} goToResult={this.goToResult}/>
+                return (
+                    <PlayField getWins={this.getWins} name={this.state.name} goToResult={this.goToResult}/>
                 )
             case 'result':
-                return(
-                    <Result lose={this.state.copmWins} win={this.state.playerWins} goToPlay={this.goToPlay}/>
+                return (
+                    <Result goBack={this.goBack} lose={this.state.copmWins} win={this.state.playerWins} />
                 )
             default:
                 return (
-                    <StartField handleClick={this.handleClick} player={this.name} goToPlay={this.goToPlay}/>
+                    <StartField goToPlay={this.goToPlay}/>
                 )
         }
 

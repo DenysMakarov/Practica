@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {cards} from "../utils/constants";
+import ResBlock from "./ResBlock";
 
 
 class PlayField extends Component {
@@ -12,7 +13,7 @@ class PlayField extends Component {
                 cards: cards.slice(0, cards.length / 2),
                 currenCard: {
                     num: 0,
-                    type: 'nothing'
+                    type: '...'
                 },
                 wins: 0
             },
@@ -20,34 +21,29 @@ class PlayField extends Component {
                 cards: cards.slice(cards.length / 2, cards.length),
                 currenCard: {
                     num: 0,
-                    type: 'nothing'
+                    type: '...'
                 },
                 wins: 0
             },
-            lightsOut: [],
-            winner: 'noBody'
+            name: '',
         }
     }
 
     componentDidMount() {
-        let personCards = cards.slice(0, cards.length / 2)
-        let compCards = cards.slice(cards.length / 2, cards.length)
-
-        this.setState({
-            ...this.state,
-            computer: {...this.state.computer, cards: compCards},
-            player: {...this.state.player, cards: personCards}
-        })
-
-        // console.log(this.state.computer.cards)
-        // console.log(this.state.name.cards)
-        // console.log('====================')
-
+        // let personCards = cards.slice(0, cards.length / 2)
+        // let compCards = cards.slice(cards.length / 2, cards.length)
+        //
+        // this.setState({
+        //     ...this.state,
+        //     // computer: {...this.state.computer, cards: compCards},
+        //     // player: {...this.state.player, cards: personCards},
+        //     // name: this.props.name
+        // })
+        console.log("name " + this.props.name)
     }
 
 
     takeCard = () => {
-
         if (!this.state.computer.cards.length || !this.state.player.cards.length) {
             this.props.getWins(this.state.computer.wins, this.state.player.wins)
             return;
@@ -58,35 +54,10 @@ class PlayField extends Component {
 
         let newCompArray = this.state.computer.cards
         let newPlayerArray = this.state.player.cards
-
         let temp = [currentCompCard, currentPlayerCard]
 
         newCompArray.pop()
         newPlayerArray.pop()
-
-
-        this.setState({
-            ...this.state,
-            lightsOut: this.state.lightsOut.unshift(...temp)
-        })
-        // console.log(this.state)
-
-
-        if (currentCompCard.num > currentPlayerCard.num) {
-            newCompArray.unshift(...this.state.lightsOut)
-            this.setState({
-                ...this.state,
-                lightsOut: this.state.lightsOut.length = 0
-            })
-        } else if (currentCompCard.num < currentPlayerCard.num) {
-            newPlayerArray.unshift(...this.state.lightsOut)
-            this.setState({
-                ...this.state,
-                lightsOut: this.state.lightsOut.length = 0
-            })
-        }
-
-        // console.log(this.state.lightsOut)
 
         this.setState({
             ...this.state,
@@ -103,7 +74,7 @@ class PlayField extends Component {
                 wins: !(this.compare(currentPlayerCard, currentCompCard)) ? this.state.player.wins : this.state.player.wins += 1
             }
         })
-
+        //
 
         // console.log(this.state.computer.cards)
         // console.log(this.state.name.cards)
@@ -114,37 +85,32 @@ class PlayField extends Component {
         return comp.num > player.num
     }
 
-
-
     render() {
         // console.log(this.state.computer.cards)
         // console.log(this.state.name.cards)
         // console.log('-----------------------')
         return (
-            <div>
-                <h2>COMP</h2>
-                <p className='winner'>{this.state.winner}</p>
-                <div>
-                    <div className='card compCard'>
-                        <p>{`skill:  ${this.state.computer.currenCard.num}`}</p>
-                        <p>{`type:  ${this.state.computer.currenCard.type}`}</p>
-                        <p>{this.state.computer.cards.length}</p>
-                    </div>
-                    <div className='card yourCard'>
-                        <p>{`skill:  ${this.state.player.currenCard.num}`}</p>
-                        <p>{`type:  ${this.state.player.currenCard.type}`}</p>
-                        <p>{this.state.player.cards.length}</p>
-                    </div>
-                </div>
-                <div className='result'>
-                    <p>{this.state.computer.wins}</p>
-                    <p>---------------------------</p>
-                    <p>{this.state.player.wins}</p>
-                </div>
-                <button onClick={this.takeCard} className='takeCard'>TAKE CARD</button>
+            <div className='mainField'>
+                <button onClick={this.takeCard} className='takeCard'><h3>TAKE CARD</h3></button>
 
-                <h2>{this.props.playerName}</h2>
-                <button onClick={this.props.goToResult}>next</button>
+                <div className='cards-field'>
+                    <h2 className='gamer'>COMP</h2>
+                    <div className='card compCard'>
+                        <p>{this.state.computer.currenCard.num}</p>
+                        <p>{this.state.computer.currenCard.type}</p>
+                    </div>
+
+                    <div className='card yourCard'>
+                        <p>{this.state.player.currenCard.type}</p>
+                        <p>{this.state.player.currenCard.num}</p>
+                    </div>
+                    <h2 className='gamer'>{this.props.name.toUpperCase()}</h2>
+                </div>
+
+                <ResBlock compWin={this.state.computer.wins} playersWin={this.state.player.wins}/>
+
+                {/*<h2>{this.props.name}</h2>*/}
+                <button className='btn-wins' onClick={this.props.goToResult}>next</button>
             </div>
         );
     }
