@@ -32,15 +32,15 @@ class PlayField extends Component {
     componentDidMount() {
         let personCards = cards.slice(0, cards.length / 2)
         let compCards = cards.slice(cards.length / 2, cards.length)
-
-        // console.log(personCards)
-        // console.log(compCards)
-
         this.setState({
             ...this.state,
             computer: {...this.state.computer, cards: compCards},
             player: {...this.state.player, cards: personCards}
         })
+
+        console.log(this.state.computer.cards)
+        console.log(this.state.player.cards)
+        console.log('====================')
 
     }
 
@@ -62,20 +62,29 @@ class PlayField extends Component {
         newCompArray.pop()
         newPlayerArray.pop()
 
-        // this.setState({
-        //     ...this.state,
-        //     lightsOut: this.state.lightsOut.unshift(currentCompCard, currentPlayerCard)
-        // })
+
+        this.setState({
+            ...this.state,
+            lightsOut: this.state.lightsOut.unshift(...temp)
+        })
         // console.log(this.state)
 
-        if (currentCompCard === currentPlayerCard) {
 
-        } else if (this.compare(currentCompCard, currentPlayerCard)) {
-            newCompArray.unshift(...temp)
-        } else {
-            newPlayerArray.unshift(...temp)
+        if (currentCompCard.num > currentPlayerCard.num) {
+            newCompArray.unshift(...this.state.lightsOut)
+            this.setState({
+                ...this.state,
+                lightsOut: this.state.lightsOut.length = 0
+            })
+        } else if (currentCompCard.num < currentPlayerCard.num) {
+            newPlayerArray.unshift(...this.state.lightsOut)
+            this.setState({
+                ...this.state,
+                lightsOut: this.state.lightsOut.length = 0
+            })
         }
 
+        console.log(this.state.lightsOut)
 
         this.setState({
             ...this.state,
